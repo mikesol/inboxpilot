@@ -11,8 +11,11 @@ class Settings(BaseSettings):
     openai_api_key: str
 
     # Clerk Auth
-    clerk_jwks_url: str
-    clerk_issuer: str
+    clerk_secret_key: str
+    clerk_authorized_parties: list[str] = ["http://localhost:3000"]
+
+    # CORS
+    cors_origins: list[str] = ["http://localhost:3000"]
 
     # SMTP / Email
     smtp_host: str = "localhost"

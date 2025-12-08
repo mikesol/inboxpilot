@@ -16,7 +16,6 @@ Lightweight outbound email CRM with AI-assisted copy for small teams.
 - Node.js 18+
 - Python 3.11+
 - Docker & Docker Compose
-- Poetry (Python package manager)
 
 ## Quick Start
 
@@ -44,13 +43,15 @@ docker-compose up -d
 cd backend
 
 # Create virtual environment and install dependencies
-poetry install
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -e ".[dev]"
 
 # Run database migrations
-poetry run alembic upgrade head
+alembic upgrade head
 
 # Start the API server
-poetry run uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --port 8000
 ```
 
 ### 4. Setup frontend

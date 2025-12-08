@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useWorkspace, useApi } from "@/lib/hooks";
-import { Users, Mail, Send, Activity } from "lucide-react";
+import { Users, Mail, Send, Activity, Plus } from "lucide-react";
 import type { Contact, Sequence, ActivityLog } from "@/lib/types";
 
 export default function DashboardPage() {
@@ -53,18 +55,7 @@ export default function DashboardPage() {
   }
 
   if (!workspace) {
-    return (
-      <AppShell>
-        <div className="text-center py-12">
-          <h2 className="text-xl font-semibold text-gray-900">
-            No workspace found
-          </h2>
-          <p className="mt-2 text-gray-500">
-            Create a workspace to get started.
-          </p>
-        </div>
-      </AppShell>
-    );
+    return <CreateWorkspaceView />;
   }
 
   const activeSequences = sequences.filter((s) => s.is_active).length;
@@ -206,4 +197,59 @@ function formatPayload(payload: Record<string, unknown>): string {
     return payload.workspace_name as string;
   }
   return "";
+}
+
+function CreateWorkspaceView() {
+  const { fetchWithAuth, api } = useApi();
+  const [name, setName] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleCreate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+
+    setCreating(true);
+    setError(null);
+
+    try {
+      await fetchWithAuth(() => api.createWorkspace({ name: name.trim() }));
+      window.location.reload();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create workspace");
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  return (
+    <AppShell>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Create your workspace</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleCreate} className="space-y-4">
+              <div>
+                <Input
+                  placeholder="Workspace name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={creating}
+                />
+              </div>
+              {error && (
+                <p className="text-sm text-red-600">{error}</p>
+              )}
+              <Button type="submit" className="w-full" disabled={creating || !name.trim()}>
+                <Plus className="h-4 w-4 mr-2" />
+                {creating ? "Creating..." : "Create Workspace"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </AppShell>
+  );
 }
