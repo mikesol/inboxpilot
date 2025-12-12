@@ -227,7 +227,7 @@ function CreateWorkspaceView() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Create your workspace</CardTitle>
+            <CardTitle>Create your very own workspace</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleCreate} className="space-y-4">
