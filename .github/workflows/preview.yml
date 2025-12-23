@@ -1,0 +1,15 @@
+# .github/workflows/preview.yml
+name: Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mikesol/autodock-preview@v1
+        env:
+          AUTODOCK_TOKEN: ${{ secrets.AUTODOCK_TOKEN }}
+          AUTODOCK_ENV: ${{ secrets.AUTODOCK_ENV }}
