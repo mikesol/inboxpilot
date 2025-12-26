@@ -138,6 +138,10 @@ autodock-demo-app/
 - **Activity Feed:** Track all actions in your workspace
 - **Test Emails:** Send test emails via MailHog
 
+## Autodock
+
+Uses autodock for pull requests.
+
 ## License
 
 MIT
