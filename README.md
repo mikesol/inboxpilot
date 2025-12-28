@@ -1,6 +1,6 @@
 # InboxPilot
 
-Lightweight outbound email CRM with AI-assisted copy for small teams.
+Lightweight outbound email CRM with AI-assisted copy for small teams. Preview for Boris Cherny.
 
 ## Tech Stack
 
